@@ -5,14 +5,21 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import React from "react";
+import React, { useState, useContext } from "react";
 import Navigation from "./Navigation";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_MAPS_APIKEY } from "@env";
+import { LocationProvider } from "./provider/LocationProvider";
 
 import tw from "tailwind-react-native-classnames"
 
 const Home = () => {
+
+  const locationContext = useContext(LocationProvider);
+
+  const [ origin, setDestination, setOrigin, des ] = locationContext;
+  
+
   return (
     <SafeAreaView style={tw`bg-white h-full`}>
       <View style={tw`p-5`}>
@@ -30,7 +37,8 @@ const Home = () => {
             placeholder="Where from?"
             nearbyPlacesAPI="GooglePlacesSearch"
             debounce={400}
-
+            enablePoweredByContainer={false}
+            minLength={2}
             styles={{
               container: {
                 flex: 0,
@@ -40,7 +48,11 @@ const Home = () => {
               },
             }}
             onPress={(data, details = null) => {
-              console.log(data, details);
+              setOrigin({
+                location: details.geometry.location, 
+                description: data.description
+              })
+              // console.log(data, details);
             }}
             query={{
               key: GOOGLE_MAPS_APIKEY,

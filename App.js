@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./component/Home";
 import Profile from "./component/Profile";
 import Map from "./component/Map";
+import LocationProvider from "./component/provider/LocationProvider";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaProvider>
+        <LocationProvider>
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
@@ -26,6 +28,7 @@ export default function App() {
               headerShown: false,
             }} />
         </Stack.Navigator>
+        </LocationProvider>
       </SafeAreaProvider>
     </NavigationContainer>
   );
